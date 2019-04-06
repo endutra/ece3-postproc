@@ -1748,7 +1748,7 @@ def __give_proj__(cname):
 
 def __font_unity__():
     #
-    params = {'font.family':'Trebuchet MS','text.fontsize':15,'xtick.labelsize':14,'ytick.labelsize': 14,'axes.labelsize':14}
+    params = {'font.family':'Trebuchet MS','font.size':15,'xtick.labelsize':14,'ytick.labelsize': 14,'axes.labelsize':14}
     mpl.rcParams.update(params)    
     big_fixed_fonts = { 'fontname':'monaco',       'fontweight':'normal', 'fontsize':15 }
     label_fonts     = { 'fontname':'Trebuchet MS', 'fontweight':'normal', 'fontsize':14 }

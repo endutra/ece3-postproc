@@ -1,0 +1,14 @@
+#! /usr/bin/env bash
+
+#SBATCH --job-name=<JOBID>_<EXPID>_<Y1>
+#SBATCH --partition=np16
+#SBATCH --nodes=1
+# #SBATCH --ntasks-per-node=<NPROCS>
+#SBATCH --output=<OUT>/log/<JOBID>_<EXPID>_<Y1>.out
+#SBATCH --exclusive
+
+
+set -eux
+
+cd $ECE3_POSTPROC_TOPDIR/script
+

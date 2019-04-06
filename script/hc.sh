@@ -101,7 +101,8 @@ do
     sed -i "s|<YREF>|$4|" $tgt_script
     sed -i "s|<OUT>|$OUT|" $tgt_script
     sed -i "s|<OPTIONS>|${options}|" $tgt_script
-    ${submit_cmd} $tgt_script
+#     ${submit_cmd} $tgt_script
+# in sbatch --array=$2-$3%2 $tgt_script
     
     # -- book keeping (experimental: eventually should not be on $SCRATCH)
     echo $YEAR >> $OUT/log/submitted_hc_$1
