@@ -1,0 +1,37 @@
+#! /usr/bin/env bash
+
+#SBATCH --job-name=hc_<EXPID>
+#SBATCH --partition=np16
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=<NPROCS>
+#SBATCH --output=<OUT>/log/hiresclim_<EXPID>_%a.out
+#SBATCH --exclusive
+
+
+set -eu
+
+export ECE3_POSTPROC_TOPDIR="/home/emanuel/work/ec-earth/ece3-postproc"
+export ECE3_POSTPROC_DATADIR="/media/tor_md3/emanuel/ecearth/ECE3-DATA-NEW"
+export ECE3_POSTPROC_MACHINE="idl"
+
+cd $ECE3_POSTPROC_TOPDIR/script
+
+export NEMO_NPROCS=<NPROCS>
+export IFS_NPROCS=<NPROCS>
+
+export OMP_NUM_THREADS=<NPROCS>
+start1=$(date +%s)
+echo "<EXPID> ${SLURM_ARRAY_TASK_ID} <YREF>"
+# prepare raw model output 
+./prepare_exp.sh <EXPID> ${SLURM_ARRAY_TASK_ID} <YREF>
+
+../hiresclim2/master_hiresclim.sh <OPTIONS> <EXPID> ${SLURM_ARRAY_TASK_ID} <YREF>
+
+# clean raw model output 
+./prepare_exp.sh <EXPID> ${SLURM_ARRAY_TASK_ID} <YREF> 1
+
+
+end1=$(date +%s)
+runtime=$((end1-start1));
+hh=$(echo "scale=3; $runtime/3600" | bc)
+echo "*II* One year postprocessing all runtime is $runtime sec (or $hh hrs) "

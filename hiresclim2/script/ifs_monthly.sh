@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eu
 
  ############################################
  # To be called from ../master_hiresclim.sh #
@@ -17,8 +17,12 @@ then
 fi
 
 # temp working dir, within $TMPDIR so it is automatically removed
-mkdir -p $SCRATCH/tmp_ecearth3/tmp
-WRKDIR=$(mktemp -d $SCRATCH/tmp_ecearth3/tmp/hireclim2_${expname}_XXXXXX) # use template if debugging
+if [ -n "${WRKDIR0-}" ]; then
+  WRKDIR=$(mktemp -d ${WRKDIR0}/hireclim2_${expname}_${year}_XXXXXX)
+else
+  mkdir -p $SCRATCH/tmp_ecearth3/tmp
+  WRKDIR=$(mktemp -d $SCRATCH/tmp_ecearth3/tmp/hireclim2_${expname}_XXXXXX) # use template if debugging
+fi 
 cd $WRKDIR
 
 NPROCS=${IFS_NPROCS:-12}
